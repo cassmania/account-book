@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import type { BudgetConfig, Transaction } from '../types';
-import { User, Moon, Sun, Download, Upload, RotateCcw, AlertTriangle } from 'lucide-react';
+import { User, Moon, Sun, Download, Upload, AlertTriangle } from 'lucide-react';
 
 interface ProfileSettingsProps {
   config: BudgetConfig;
   onUpdateConfig: (config: BudgetConfig) => void;
   transactions: Transaction[];
   onImportTransactions: (txs: Transaction[]) => void;
-  onResetData: () => void;
+  onResetTransactions: (type: 'sample' | 'empty') => void;
+  onResetCategories: () => void;
+  onResetConfig: () => void;
   theme: 'light' | 'dark';
   onToggleTheme: () => void;
 }
@@ -17,7 +19,9 @@ export const ProfileSettings: React.FC<ProfileSettingsProps> = ({
   onUpdateConfig,
   transactions,
   onImportTransactions,
-  onResetData,
+  onResetTransactions,
+  onResetCategories,
+  onResetConfig,
   theme,
   onToggleTheme
 }) => {
@@ -236,25 +240,87 @@ export const ProfileSettings: React.FC<ProfileSettingsProps> = ({
             </div>
           </div>
 
-          {/* 시스템 리셋 */}
-          <div className="premium-card" style={{ border: '1px solid rgba(214,113,96,0.4)', background: 'rgba(214,113,96,0.02)' }}>
-            <h4 style={{ fontSize: '15px', fontWeight: '700', color: 'var(--color-expense)', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-              <AlertTriangle size={18} /> 시스템 초기화
+          {/* 개별 기능 초기화 */}
+          <div className="premium-card" style={{ border: '1px solid rgba(214,113,96,0.4)', background: 'rgba(214,113,96,0.01)', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            <h4 style={{ fontSize: '15px', fontWeight: '700', color: 'var(--color-expense)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <AlertTriangle size={18} /> 개별 영역 데이터 초기화
             </h4>
-            <p style={{ fontSize: '12px', color: 'var(--text-secondary)', marginBottom: '14px' }}>
-              가계부 기록을 초기 더미 데이터 상태로 복구하며, 현재까지 작성한 모든 기록이 완전히 삭제됩니다.
+            <p style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
+              가계부의 특정 영역별 데이터를 개별적으로 선택하여 초기화할 수 있습니다.
             </p>
-            <button 
-              className="btn" 
-              onClick={() => {
-                if (confirm('모든 가계부 데이터를 초기화하고 샘플 데이터로 리셋하시겠습니까?\n이 작업은 되돌릴 수 없습니다.')) {
-                  onResetData();
-                }
-              }}
-              style={{ borderColor: 'var(--color-expense)', color: 'var(--color-expense)', width: '100%' }}
-            >
-              <RotateCcw size={16} /> 초기 데이터로 리셋
-            </button>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {/* 1. 거래 내역 초기화 (대시보드/기록/캘린더/분석 연동) */}
+              <div style={{ padding: '10px', background: 'var(--bg-color)', borderRadius: '10px', border: '1px solid var(--border-color)' }}>
+                <span style={{ fontSize: '13px', fontWeight: '700', display: 'block', marginBottom: '6px' }}>📝 거래 내역 초기화 (대시보드·기록·캘린더)</span>
+                <div style={{ display: 'flex', gap: '6px' }}>
+                  <button 
+                    type="button"
+                    className="btn btn-ghost" 
+                    onClick={() => {
+                      if (confirm('모든 거래 기록을 지우고 웬즈데이 샘플 내역으로 복원하시겠습니까?')) {
+                        onResetTransactions('sample');
+                      }
+                    }}
+                    style={{ flex: 1, fontSize: '11px', padding: '6px' }}
+                  >
+                    샘플로 복원
+                  </button>
+                  <button 
+                    type="button"
+                    className="btn" 
+                    onClick={() => {
+                      if (confirm('모든 거래 기록을 완전히 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.')) {
+                        onResetTransactions('empty');
+                      }
+                    }}
+                    style={{ flex: 1, fontSize: '11px', padding: '6px', borderColor: 'var(--color-expense)', color: 'var(--color-expense)' }}
+                  >
+                    기록 전체 삭제
+                  </button>
+                </div>
+              </div>
+
+              {/* 2. 분류 카테고리 초기화 */}
+              <div style={{ padding: '10px', background: 'var(--bg-color)', borderRadius: '10px', border: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                  <span style={{ fontSize: '13px', fontWeight: '700', display: 'block' }}>⚙️ 카테고리 설정 초기화</span>
+                  <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>대/중/소분류를 기본값으로 리셋</span>
+                </div>
+                <button 
+                  type="button"
+                  className="btn btn-ghost" 
+                  onClick={() => {
+                    if (confirm('분류 카테고리 설정을 공통 기본 규격으로 초기화하시겠습니까?')) {
+                      onResetCategories();
+                    }
+                  }}
+                  style={{ fontSize: '11px', padding: '6px 12px' }}
+                >
+                  기본값 리셋
+                </button>
+              </div>
+
+              {/* 3. 프로필 및 예산 목표 초기화 */}
+              <div style={{ padding: '10px', background: 'var(--bg-color)', borderRadius: '10px', border: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                  <span style={{ fontSize: '13px', fontWeight: '700', display: 'block' }}>🦊 프로필 및 예산 목표 초기화</span>
+                  <span style={{ fontSize: '10px', color: 'var(--text-muted)' }}>이름, 예산, 저축목표 초기화</span>
+                </div>
+                <button 
+                  type="button"
+                  className="btn btn-ghost" 
+                  onClick={() => {
+                    if (confirm('사용자 프로필명과 예산 및 저축 목표 수치를 기본값으로 복구하시겠습니까?')) {
+                      onResetConfig();
+                    }
+                  }}
+                  style={{ fontSize: '11px', padding: '6px 12px' }}
+                >
+                  기본값 리셋
+                </button>
+              </div>
+            </div>
           </div>
 
         </div>

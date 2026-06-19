@@ -88,11 +88,19 @@ function App() {
     setTransactions(importedTxs);
   };
 
-  const handleResetData = () => {
-    setTransactions(INITIAL_TRANSACTIONS);
+  const handleResetTransactions = (type: 'sample' | 'empty') => {
+    setTransactions(type === 'sample' ? INITIAL_TRANSACTIONS : []);
+    alert(type === 'sample' ? '거래 내역이 샘플 데이터로 복원되었습니다.' : '모든 거래 기록이 완전히 삭제되었습니다.');
+  };
+
+  const handleResetCategories = () => {
     setCategories(DEFAULT_CATEGORIES);
+    alert('카테고리 분류 설정이 기본값으로 초기화되었습니다.');
+  };
+
+  const handleResetConfig = () => {
     setConfig(DEFAULT_BUDGET_CONFIG);
-    alert('모든 가계부 데이터가 초기 더미 내역으로 정상 리셋되었습니다.');
+    alert('프로필 및 예산 목표 설정이 기본값으로 초기화되었습니다.');
   };
 
   // 캘린더에서 "이 날짜로 등록하기" 버튼 클릭 시 작동
@@ -253,13 +261,15 @@ function App() {
           />
         )}
 
-        {activeTab === 'profile' && (
+         {activeTab === 'profile' && (
           <ProfileSettings 
             config={config}
             onUpdateConfig={setConfig}
             transactions={transactions}
             onImportTransactions={handleImportTransactions}
-            onResetData={handleResetData}
+            onResetTransactions={handleResetTransactions}
+            onResetCategories={handleResetCategories}
+            onResetConfig={handleResetConfig}
             theme={theme}
             onToggleTheme={() => setTheme(prev => prev === 'light' ? 'dark' : 'light')}
           />
