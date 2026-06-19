@@ -258,7 +258,7 @@ export const ProfileSettings: React.FC<ProfileSettingsProps> = ({
                     type="button"
                     className="btn btn-ghost" 
                     onClick={() => {
-                      if (confirm('모든 거래 기록을 지우고 웬즈데이 샘플 내역으로 복원하시겠습니까?')) {
+                      if (confirm('모든 거래 기록을 지우고 丕刀卜己卜人丨廿卜 샘플 내역으로 복원하시겠습니까?')) {
                         onResetTransactions('sample');
                       }
                     }}

@@ -23,7 +23,7 @@ export const DEFAULT_CATEGORIES: CategoryStructure = {
 };
 
 export const DEFAULT_BUDGET_CONFIG: BudgetConfig = {
-  username: '김웬즈',
+  username: '丕刀卜己卜人丨廿卜',
   monthlyBudget: 4500000,   // 월 평균 수익/예산
   targetSavings: 1500000,   // 월 저축 목표
   avatarEmoji: '🦊',
@@ -39,7 +39,7 @@ export const INITIAL_TRANSACTIONS: Transaction[] = [
     type: '수익',
     category: '근로소득',
     subcategory: '급여',
-    detail: '주식회사 웬즈',
+    detail: '주식회사 丕刀卜己卜人丨廿卜',
     amount: 4250000,
     memo: '6월 정기 급여'
   },
@@ -161,7 +161,7 @@ export const INITIAL_TRANSACTIONS: Transaction[] = [
     type: '수익',
     category: '근로소득',
     subcategory: '급여',
-    detail: '주식회사 웬즈',
+    detail: '주식회사 丕刀卜己卜人丨廿卜',
     amount: 4250000,
     memo: '5월 정기 급여'
   },

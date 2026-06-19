@@ -137,9 +137,9 @@ function App() {
             color: 'var(--bg-color)',
             fontWeight: '800',
             fontSize: '18px'
-          }}>W</div>
-          <span style={{ fontSize: '18px', fontWeight: '800', fontFamily: 'var(--font-display)', letterSpacing: '1px' }}>
-            WEDNESDAY
+          }}>丕</div>
+          <span style={{ fontSize: '16px', fontWeight: '800', fontFamily: 'var(--font-display)', letterSpacing: '0.5px' }}>
+            丕刀卜己卜人丨廿卜
           </span>
         </div>
 
